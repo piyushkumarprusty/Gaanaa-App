@@ -3,8 +3,12 @@ package com.example.android.gaanaa;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,13 +24,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    ListView listView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ListView listView;
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        listView = findViewById(R.id.list);
+
 
         // Dexter is an Android library that simplifies the process of requesting permissions at runtime.
 
@@ -35,13 +43,29 @@ public class MainActivity extends AppCompatActivity {
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+
                         Toast.makeText(MainActivity.this, "RunTIme perission given", Toast.LENGTH_SHORT).show();
                         ArrayList<File> mySongs = fetchSongs(Environment.getExternalStorageDirectory());
                         String[] items = new String [mySongs.size()];
                         for (int i =0;i<mySongs.size() ; i++){
 
-                            items[i] = mySongs.get(i).getName().replace("mp3" , "");
+                            items[i] = mySongs.get(i).getName().replace(".mp3" , "");
                         }
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this , android.R.layout.simple_list_item_1,items );
+                        listView.setAdapter(adapter);
+
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                                Intent intent = new Intent(MainActivity.this , PlaySong.class);
+                                String currentSong = listView.getItemAtPosition(position).toString();
+                                intent.putExtra("songList" , mySongs);
+                                intent.putExtra("songList" , currentSong);
+                                intent.putExtra("songList" , position);
+                                startActivity(intent);
+
+                            }
+                        });
 
 
                     }
