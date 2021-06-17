@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.os.Environment;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.karumi.dexter.Dexter;
@@ -13,8 +15,12 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
+public class MainActivity extends AppCompatActivity {
+    ListView listView;
 
 
     @Override
@@ -22,14 +28,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       // Dexter is an Android library that simplifies the process of requesting permissions at runtime.
+        // Dexter is an Android library that simplifies the process of requesting permissions at runtime.
 
         Dexter.withContext(this)
                 .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                        Toast.makeText(MainActivity.this,"RunTIme perission given" , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "RunTIme perission given", Toast.LENGTH_SHORT).show();
+                        ArrayList<File> mySongs = fetchSongs(Environment.getExternalStorageDirectory());
+                        String[] items = new String [mySongs.size()];
+                        for (int i =0;i<mySongs.size() ; i++){
+
+                            items[i] = mySongs.get(i).getName().replace("mp3" , "");
+                        }
+
 
                     }
 
@@ -45,6 +58,27 @@ public class MainActivity extends AppCompatActivity {
                         permissionToken.continuePermissionRequest();
                     }
                 })
-                .check()  ;
+                .check();
+    }
+
+    public ArrayList<File> fetchSongs(File file) {
+        ArrayList arrayList = new ArrayList();
+        File[] songs = file.listFiles();          // This is to list all files
+
+        if (songs != null) {
+            for (File myFile : songs) {
+                if (!myFile.isHidden() && myFile.isDirectory()) {
+                    arrayList.addAll(fetchSongs(myFile));
+                } else {
+                    if (myFile.getName().endsWith(".mp3") && !myFile.getName().startsWith(".")) {
+                        arrayList.add(myFile);
+                    }
+                }
+            }
+        }
+
+
+        return arrayList;
+
     }
 }
