@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
                                 Intent intent = new Intent(MainActivity.this , PlaySong.class);
                                 String currentSong = listView.getItemAtPosition(position).toString();
                                 intent.putExtra("songList" , mySongs);
-                                intent.putExtra("songList" , currentSong);
-                                intent.putExtra("songList" , position);
+                                intent.putExtra("currentSong" , currentSong);
+                                intent.putExtra("position" , position);
                                 startActivity(intent);
 
                             }

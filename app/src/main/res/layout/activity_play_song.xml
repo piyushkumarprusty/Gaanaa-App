@@ -44,21 +44,21 @@
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/previous"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/previos" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/play"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/play" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
