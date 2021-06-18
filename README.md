@@ -1,4 +1,5 @@
 # Gaanaa-App
 Full end to end Gaanaa app
-<img src="https://user-images.githubusercontent.com/83058841/122056013-d1ce0e80-ce06-11eb-8961-97aecf23a069.png" width="250" height="450">
+
+<img src="https://user-images.githubusercontent.com/83058841/122563695-1f928300-d062-11eb-94f0-e64f991d5eb7.png" width="250" height="450">
 
